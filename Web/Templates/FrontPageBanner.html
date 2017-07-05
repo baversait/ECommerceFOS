@@ -1,0 +1,165 @@
+﻿
+<table class="table table-responsive">
+    <thead>
+    <th>FrontPageBannerID</th>
+    <th>ImagePath</th>
+    <th>ForwardAddress</th>
+    <th>IsBlockBanner</th>
+    <th>IsCarousel</th>
+    <th>IsSampleBanner</th>
+    <th>IsShown</th>
+
+    <th class="col-sm-offset-11">Edit</th>
+    <th>Delete</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="frontPage in frontPages">
+            <td>{{frontPage.FrontPageBannerID}}</td>
+            <td>
+                <span ng-repeat="image in frontPage.Images">
+                    {{image.ImagePath}} <br />
+                </span>
+            </td>
+            <td>{{frontPage.ForwardAddress}}</td>
+            <td>{{frontPage.IsBlockBanner}}</td>
+            <td>{{frontPage.IsCarousel}}</td>
+            <td>{{frontPage.IsSampleBanner}}</td>
+            <td>{{frontPage.IsShown}}</td>
+
+            <td><span class="btn btn-info glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editModal" ng-click="selectFrontPage(frontPage)"></span></td>
+            <td><span class="btn btn-danger glyphicon glyphicon-remove" data-toggle="modal" data-target="#deleteModal" ng-click="selectFrontPage(frontPage)"></span></td>
+        </tr>
+    </tbody>
+</table>
+
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add</button>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Do you want to delete the following FrontPageBanner?</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>FrontPageBannerID</td>
+                        <td>{{selectedFrontPage.FrontPageBannerID}}</td>
+                    </tr>
+                    <tr>
+                        <td>ForwardAddress</td>
+                        <td>{{selectedFrontPage.ForwardAddress}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteFrontPage(selectedFrontPage)">Delete</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Update Modal-->
+
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Editing</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    
+                    <tr>
+                        <td>ForwardAddress</td>
+                        <td><input type="text" ng-model="selectedFrontPage.ForwardAddress" /></td>
+                    </tr>
+                    <tr>
+                        <td>ImagePath</td>
+                        <td><input type="text" ng-model="selectedFrontPage.Images[0].ImagePath" /></td>
+                    </tr>
+                    <tr>
+                        <td>IsBlockBanner</td>
+                        <td><input type="checkbox" ng-model="selectedFrontPage.IsBlockBanner" /></td>
+                    </tr>
+                    <tr>
+                        <td>IsCarousel</td>
+                        <td><input type="checkbox" ng-model="selectedFrontPage.IsCarousel" /></td>
+                    </tr>
+                    <tr>
+                        <td>IsSampleBanner</td>
+                        <td><input type="checkbox" ng-model="selectedFrontPage.IsSampleBanner" /></td>
+                    </tr>
+                    <tr>
+                        <td>IsShown</td>
+                        <td><input type="checkbox" ng-model="selectedFrontPage.IsShown" /></td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="editFrontPage(selectedFrontPage)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Add Modal-->
+
+<div id="addModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Adding</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    
+                    <tr>
+                        <td>ForwardAddress</td>
+                        <td><input type="text" ng-model="newFrontPage.ForwardAddress" /></td>
+                    </tr>
+                    <tr>
+                        <td>ImagePath</td>
+                        <td><input type="text" ng-model="newFrontPage.Images[0].ImagePath" /></td>
+                    </tr>
+                    <tr>
+                        <td>IsBlockBanner</td>
+                        <td><input type="checkbox" ng-model="newFrontPage.IsBlockBanner" /></td>
+                    </tr>
+                    <tr>
+                        <td>IsCarousel</td>
+                        <td><input type="checkbox" ng-model="newFrontPage.IsCarousel" /></td>
+                    </tr>
+                    <tr>
+                        <td>IsSampleBanner</td>
+                        <td><input type="checkbox" ng-model="newFrontPage.IsSampleBanner" /></td>
+                    </tr>
+                    <tr>
+                        <td>IsShown</td>
+                        <td><input type="checkbox" ng-model="newFrontPage.IsShown" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="addFrontPage(newFrontPage)">Add</button>
+            </div>
+        </div>
+
+    </div>
+</div>

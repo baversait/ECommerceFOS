@@ -1,0 +1,150 @@
+﻿@model Web.Models.ProductDetailModel
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/MainLayoutPage.cshtml";
+}
+<div id="container">
+    <div class="container">
+        <!-- Breadcrumb Start-->
+        @if (Model.ProductDetail != null && Model.Product != null)
+        {
+            <ul class="breadcrumb">
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <a href="/" itemprop="url">
+                        <span itemprop="title"><i class="fa fa-home"></i></span>
+                    </a>
+                </li>
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <a href="/CategoryPage/SubCategory/@Model.Product.CategoryID" itemprop="url">
+                        <span itemprop="title">@Model.Product.SubCategoryName</span>
+                    </a>
+                </li>
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <a href="/ProductPage/Product/@Model.ProductDetail.ProductDetailID" itemprop="url">
+                        <span itemprop="title">@Model.Product.ProductName</span>
+                    </a>
+                </li>
+            </ul>
+        }
+        <!-- Breadcrumb End-->
+        <div class="row">
+            <!--Middle Part Start-->
+            <div id="content" class="col-sm-9">
+                <div itemscope itemtype="http://schema.org/Product">
+
+                    @if (Model.ProductDetail != null)
+                    {
+
+                        <h1 class="title" itemprop="name">@Model.ProductDetail.ProductName</h1>
+                        <div class="row product-info">
+                            @if (Model.ProductDetail.Images != null && Model.ProductDetail.Images.Count > 0)
+                            {
+                                <div class="col-sm-6">
+                                    <div class="image" style="height: 450px">
+                                        <img class="img-responsive" itemprop="image" id="zoom_01" src="@Model.ProductDetail.Images.ToList()[0].ImagePath"
+                                             title="@Model.ProductDetail.ProductName" alt="Laptop Silver black"
+                                             data-zoom-image="@Model.ProductDetail.Images.ToList()[0].ImagePath" />
+                                    </div>
+                                    <div class="center-block text-center">
+                                        <span class="zoom-gallery"><i class="fa fa-search"></i> Click image for Gallery</span>
+                                    </div>
+                                    <div class="image-additional" id="gallery_01">
+                                        @foreach (var image in Model.ProductDetail.Images)
+                                        {
+                                            <a class="thumbnail" href="#" data-zoom-image="@image.ImagePath" data-image="@image.ImagePath" title="Laptop Silver black">
+                                                <img src="@image.ImagePath" title="@Model.ProductDetail.ProductName" alt="@Model.ProductDetail.ProductName" />
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-sm-6">
+                                <ul class="list-unstyled description">
+                                    <li><b>Brand:</b> <a href="#"><span itemprop="brand">@Model.Product.BrandName</span></a></li>
+                                    <li><b>Product Code:</b> <span itemprop="mpn">@Model.Product.ProductID @Model.Product.ProductName</span></li>
+                                    <li><b>Reward Points:</b> @Model.ProductDetail.RewardPoint</li>
+                                </ul>
+                                <ul class="price-box">
+                                    <li class="price" itemprop="offers"
+                                        itemscope itemtype="http://schema.org/Offer">
+                                        <span class="price-old">$@Model.ProductDetail.UnitPrice</span>
+                                        <span itemprop="price">
+                                            $@Model.ProductDetail.CurrentUnitPrice
+                                            <span itemprop="availability" content="In Stock"></span>
+                                        </span>
+                                    </li>
+                                </ul>
+                                <div id="product">
+                                    <div class="cart">
+                                        <div>
+                                            <div class="qty">
+                                                <label class="control-label" for="input-quantity">Qty</label>
+                                                <input type="text" name="quantity" value="1" size="2" id="input-quantity" class="form-control" />
+                                                <a class="qtyBtn plus" href="javascript:void(0);">+</a><br />
+                                                <a class="qtyBtn mines" href="javascript:void(0);">-</a>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <button type="button" id="button-cart" class="btn btn-primary btn-lg" ng-click="addProductToCartFromProductsPage(@Model.ProductDetail.ProductDetailID)">
+                                                Add to Cart
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab-description" data-toggle="tab">Description</a></li>
+                            <li><a href="#tab-specification" data-toggle="tab">Specification</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div itemprop="description" id="tab-description" class="tab-pane active">
+                                <div>
+                                    <p>
+                                        @Model.ProductDetail.Description
+                                    </p>
+                                </div>
+                            </div>
+                            <div id="tab-specification" class="tab-pane">
+                                <div id="tab-specification" class="tab-pane">
+                                    <p>
+                                        @Model.Product.Specification
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+            <!--Middle Part End -->
+            <!--Right Part Start -->
+            <aside id="column-right" class="col-sm-3 hidden-xs" ng-controller="bestSellersCtrl" ng-init="getBestSellers()">
+                <h3 class="subtitle">Bestsellers</h3>
+                <div class="side-item">
+                    <div class="product-thumb clearfix" ng-repeat="productDetail in bestSellers">
+                        <div class="image">
+                            <a href="/ProductPage/Product/{{productDetail.ProductDetailID}}">
+                                <img src="{{productDetail.Images[0].ImagePath}}"
+                                     alt="{{productDetail.Description}}"
+                                     title="{{productDetail.Description}}"
+                                     class="img-responsive" />
+                            </a>
+                        </div>
+                        <div class="caption">
+                            <h4><a href="/ProductPage/Product/{{productDetail.ProductDetailID}}">{{productDetail.ProductName}}</a></h4>
+                            <p class="price">
+                                <span class="price-new">${{productDetail.UnitPrice}}</span>
+                                @*<span class="price-old">$122.00</span>*@
+                                <span class="saving">{{productDetail.Discount}}%</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+            <!--Right Part End -->
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,106 @@
+﻿
+<table class="table table-responsive">
+    <thead>
+    <th>CountryID</th>
+    <th>Name</th>
+    <th class="col-sm-offset-11">Edit</th>
+    <th>Delete</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="country in countries">
+            <td>{{country.CountryID}}</td>
+            <td>{{country.Name}}</td>
+            <td><span class="btn btn-info glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editModal" ng-click="selectCountry(country)"></span></td>
+            <td><span class="btn btn-danger glyphicon glyphicon-remove" data-toggle="modal" data-target="#deleteModal" ng-click="selectCountry(country)"></span></td>
+        </tr>
+    </tbody>
+</table>
+
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add</button>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Do you want to delete the following Country?</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>CountryID</td>
+                        <td>{{selectedCountry.CountryID}}</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>{{selectedCurrency.Name}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteCountry(selectedCountry)">Delete</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Update Modal-->
+
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Editing</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>Name</td>
+                        <td><input type="text" ng-model="selectedCountry.Name" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="editCountry(selectedCountry)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Add Modal-->
+
+<div id="addModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Adding</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>Name</td>
+                        <td><input type="text" ng-model="newCountry.Name" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="addCountry(newCountry)">Add</button>
+            </div>
+        </div>
+
+    </div>
+</div>

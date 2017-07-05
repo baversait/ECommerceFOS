@@ -1,0 +1,136 @@
+﻿
+<table class="table table-responsive">
+    <thead>
+    <th>CurrencyID</th>
+    <th>CurrencyName</th>
+    <th>CurrencySymbol</th>
+    <th>Value</th>
+    <th>Date</th>
+    <th class="col-sm-offset-11">Edit</th>
+    <th>Delete</th>
+    </thead>
+    <tbody>
+    <tr ng-repeat="currency in currencies">
+        <td>{{currency.CurrencyID}}</td>
+        <td>{{currency.CurrencyName}}</td>
+        <td>{{currency.CurrencySymbol}}</td>
+        <td>{{currency.Value}}</td>
+        <td>{{currency.Date}}</td>
+        <td><span class="btn btn-info glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editModal" ng-click="selectCurrency(currency)"></span></td>
+        <td><span class="btn btn-danger glyphicon glyphicon-remove" data-toggle="modal" data-target="#deleteModal" ng-click="selectCurrency(currency)"></span></td>
+    </tr>
+    </tbody>
+</table>
+
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal" >Add</button>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Do you want to delete the following Currency?</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>CurrencyID</td>
+                        <td>{{selectedCurrency.CurrencyID}}</td>
+                    </tr>
+                    <tr>
+                        <td>CurrencyName</td>
+                        <td>{{selectedCurrency.CurrencyName}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteCurrency(selectedCurrency)">Delete</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Update Modal-->
+
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Editing</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>CurrencyName</td>
+                        <td><input type="text" ng-model="selectedCurrency.CurrencyName" /></td>
+                    </tr>
+                    <tr>
+                        <td>CurrencySymbol</td>
+                        <td><input type="text" ng-model="selectedCurrency.CurrencySymbol" /></td>
+                    </tr>
+                    <tr>
+                        <td>Value</td>
+                        <td><input type="number" ng-model="selectedCurrency.Value" /></td>
+                    </tr>
+                    <tr>
+                        <td>Date</td>
+                        <td><input type="text" ng-model="selectedCurrency.Date" data-date-format="yyyy-mm-dd"/></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="editCurrency(selectedCurrency)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Add Modal-->
+
+<div id="addModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Adding</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>CurrencyName</td>
+                        <td><input type="text" ng-model="newCurrency.CurrencyName" /></td>
+                    </tr>
+                    <tr>
+                        <td>CurrencySymbol</td>
+                        <td><input type="text" ng-model="newCurrency.CurrencySymbol" /></td>
+                    </tr>
+                    <tr>
+                        <td>Value</td>
+                        <td><input type="number" ng-model="newCurrency.Value" /></td>
+                    </tr>
+                    <tr>
+                        <td>Date</td>
+                        <td><input type="text" ng-model="newCurrency.Date" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="addCurrency(newCurrency)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>

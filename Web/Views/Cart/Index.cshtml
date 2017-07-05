@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/MainLayoutPage.cshtml";
+}
+
+<div id="container">
+    <div class="container">
+        <!-- Breadcrumb Start-->
+        <ul class="breadcrumb">
+            <li><a href="/"><i class="fa fa-home"></i></a></li>
+            <li><a href="/Cart">Shopping Cart</a></li>
+        </ul>
+        <!-- Breadcrumb End-->
+        <div class="row">
+            <!--Middle Part Start-->
+            <div id="content" class="col-sm-12">
+                <h1 class="title">Shopping Cart</h1>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="text-center">Image</td>
+                                <td class="text-left">Product Name</td>
+                                <td class="text-left">Model</td>
+                                <td class="text-left">Quantity</td>
+                                <td class="text-right">Unit Price</td>
+                                <td class="text-right">Total</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="cartDetail in cart.CartDetails">
+                                <td class="text-center"><a href="/ProductPage/Product/{{cartDetail.ProductDetailID}}">
+                                    <img src="{{cartDetail.ProductDetail.Images[0].ImagePath}}" 
+                                         alt="{{cartDetail.ProductDetail.ProductName}}" 
+                                         title="{{cartDetail.ProductDetail.ProductName}}" 
+                                         class="img-thumbnail" style="height: 50px"/>
+                                </a></td>
+                                <td class="text-left">
+                                    <a href="product.html">{{cartDetail.ProductDetail.ProductName}}</a><br />
+                                    <small>{{cartDetail.ProductDetail.RewardPoints}}</small>
+                                </td>
+                                <td class="text-left">{{cartDetail.ProductDetailID}}</td>
+                                <td class="text-left">
+                                    <div class="input-group btn-block quantity">
+                                        <input type="text" name="quantity" ng-model="cartDetail.Quantity" size="1" class="form-control" />
+                                        <span class="input-group-btn">
+                                            <button type="submit" data-toggle="tooltip" title="Update" ng-click="updateCartDetail(cartDetail)" class="btn btn-primary"><i class="fa fa-refresh"></i></button>
+                                            <button type="button" data-toggle="tooltip" title="Remove" ng-click="deleteCartDetail(cartDetail)"  class="btn btn-danger" onClick=""><i class="fa fa-times-circle"></i></button>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="text-right">{{cartDetail.UnitPrice}}</td>
+                                <td class="text-right">{{cartDetail.UnitPrice * cartDetail.Quantity}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-4 col-sm-offset-8">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td class="text-right"><strong>Sub-Total</strong></td>
+                                <td class="text-right">${{cart.TotalPrice | number:2}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><strong>VAT</strong></td>
+                                <td class="text-right">${{cart.TotalTax | number:2}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><strong>Total</strong></td>
+                                <td class="text-right">${{cart.TotalPriceAfterTax | number:2}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <div class="pull-left"><a href="/" class="btn btn-default">Continue Shopping</a></div>
+                    <div class="pull-right"><a href="/Checkout" class="btn btn-primary">Checkout</a></div>
+                </div>
+            </div>
+            <!--Middle Part End -->
+        </div>
+    </div>
+</div>

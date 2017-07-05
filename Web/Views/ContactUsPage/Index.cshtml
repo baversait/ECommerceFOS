@@ -1,0 +1,72 @@
+﻿@model Web.Models.MainModel
+@{
+    ViewBag.Title = "ContactUs";
+    Layout = "~/Views/Shared/MainLayoutPage.cshtml";
+}
+<div id="container">
+    <div class="container">
+        <!-- Breadcrumb Start-->
+        <ul class="breadcrumb">
+            <li><a href="index.html"><i class="fa fa-home"></i></a></li>
+            <li><a href="contact-us.html">Contact Us</a></li>
+        </ul>
+        <!-- Breadcrumb End-->
+        <div class="row">
+            <!--Middle Part Start-->
+            <div id="content" class="col-sm-9">
+                <h1 class="title">Contact Us</h1>
+                <h3 class="subtitle">Our Location</h3>
+                @if (Model.CompanyInfo != null)
+                {
+                    <div class="row">
+                        <div class="col-sm-3"><img src="~/image/product/store_location-275x180.jpg" alt="MarketShop Template" title="MarketShop Template" class="img-thumbnail"></div>
+                        <div class="col-sm-3">
+                            @Model.CompanyInfo.Address.AddressStr<br />
+                            @Model.CompanyInfo.Address.Town.Name /
+                            @Model.CompanyInfo.Address.Town.City.Name<br />
+                            @Model.CompanyInfo.Address.Town.City.Country.Name
+
+                        </div>
+                        <div class="col-sm-3">
+                            Phone Number:<br />
+                            @Model.CompanyInfo.PhoneNumber
+                        </div>
+                        <div class="col-sm-3">
+                            Opening Times:<br />
+                            24X7 Customer Care
+                        </div>
+                    </div>
+                }
+
+                <form class="form-horizontal">
+                    <fieldset>
+                        <h3 class="subtitle">Send us an Email</h3>
+                        <div class="form-group required">
+                            <label class="col-md-2 col-sm-3 control-label" for="input-name">Your Name</label>
+                            <div class="col-md-10 col-sm-9">
+                                <input type="text" name="name" value="" id="input-name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label class="col-md-2 col-sm-3 control-label" for="input-email">E-Mail Address</label>
+                            <div class="col-md-10 col-sm-9">
+                                <input type="text" name="email" value="" id="input-email" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label class="col-md-2 col-sm-3 control-label" for="input-enquiry">Enquiry</label>
+                            <div class="col-md-10 col-sm-9">
+                                <textarea name="enquiry" rows="10" id="input-enquiry" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="buttons">
+                        <div class="pull-right">
+                            <input class="btn btn-primary" type="submit" value="Submit">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,535 @@
+﻿<table class="table table-responsive table-condensed">
+    <thead>
+    <th>ProductID</th>
+    <th>ProductName</th>
+    <th>SubCategoryName</th>
+    <th>BrandName</th>
+    <th>SupplierName</th>
+    <th>TaxRate</th>
+    <th>Specification</th>
+    <th class="col-sm-offset-10">ProductDetails</th>
+    <th>Edit</th>
+    <th>Delete</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="product in products">
+            <td>{{product.ProductID}}</td>
+            <td>{{product.ProductName}}</td>
+            <td>{{product.SubCategoryName}}</td>
+            <td>{{product.BrandName}}</td>
+            <td>{{product.SupplierName}}</td>
+            <td>{{product.TaxRate}}</td>
+            <td>{{product.Specification}}</td>
+            <td>
+                <span class="btn btn-info glyphicon glyphicon-pencil"
+                      data-toggle="modal"
+                      data-target="#openProductDetailModal"
+                      ng-click="selectProduct(product)"></span>
+            </td>
+            <td>
+                <span class="btn btn-info glyphicon glyphicon-pencil"
+                      data-toggle="modal"
+                      data-target="#updateModal"
+                      ng-click="selectProduct(product)"></span>
+            </td>
+            <td>
+                <span class="btn btn-danger glyphicon glyphicon-remove"
+                      data-toggle="modal"
+                      data-target="#deleteModal"
+                      ng-click="selectProduct(product)"></span>
+            </td>
+        </tr>
+        <!--<tr ng-repeat-end ng-repeat="productDetail in product.ProductDetails">
+            <td>productDetail.ColorID}}</td>
+            <td>productDetail.UnitPrice}}</td>
+            <td>productDetail.UnitsInStock}}</td>
+        </tr>-->
+    </tbody>
+</table>
+
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal" ng-click="getCheckBoxDatas()">Add</button>
+
+<!--Update Modal-->
+
+<div id="openProductDetailModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Editing</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+
+                    <tr>
+                        <td>ProductDetailID</td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            {{productDetail.ProductDetailID}}
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>ProductName</td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            {{selectedProduct.ProductName}}
+                        </td>
+                        <td><input type="hidden" ng-model="newProductDetail.ProductName" /></td>
+                    </tr>
+                    <tr>
+                        <td>Color</td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            {{productDetail.ColorName}}
+                        </td>
+                        <td>
+                            <select ng-model="newProductDetail.ColorID"
+                                    ng-options="color.ColorID as color.ColorName for color in colors"></select>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>UnitPrice</td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            {{productDetail.UnitPrice}}
+                        </td>
+                        <td><input type="text" ng-model="newProductDetail.UnitPrice" /></td>
+
+                    </tr>
+                    <tr>
+                        <td>CurrentUnitPrice</td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            {{productDetail.CurrentUnitPrice}}
+                        </td>
+                        <td><input type="text" ng-model="newProductDetail.CurrentUnitPrice" /></td>
+
+                    </tr>
+                    <tr>
+                        <td>UnitsInStock</td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            {{productDetail.UnitsInStock}}
+                        </td>
+                        <td><input type="text" ng-model="newProductDetail.UnitsInStock" /></td>
+                    </tr>
+                    <tr>
+                        <td>Discount</td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            {{productDetail.Discount}}
+                        </td>
+                        <td><input type="text" ng-model="newProductDetail.Discount" /></td>
+                    </tr>
+                    <tr>
+                        <td>ReOrderLevel</td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            {{productDetail.ReOrderLevel}}
+                        </td>
+                        <td><input type="text" ng-model="newProductDetail.ReOrderLevel" /></td>
+                    </tr>
+                    <tr>
+                        <td>RewardPoint</td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            {{productDetail.RewardPoint}}
+                        </td>
+                        <td><input type="text" ng-model="newProductDetail.RewardPoint" /></td>
+                    </tr>
+                    <tr>
+                        <td>Discontinued</td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            {{productDetail.Discontinued}}
+                        </td>
+                        <td><input type="checkbox" ng-model="newProductDetail.Discontinued" /></td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            {{productDetail.Description}}
+                        </td>
+                        <td><input type="text" ng-model="newProductDetail.Description" /></td>
+                    </tr>
+                    <tr>
+                        <td>Volume</td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            {{productDetail.Volume}}
+                        </td>
+                        <td><input type="text" ng-model="newProductDetail.Volume" /></td>
+                    </tr>
+                    <tr>
+                        <td>Weight</td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            {{productDetail.Weight}}
+                        </td>
+                        <td><input type="text" ng-model="newProductDetail.Weight" /></td>
+                    </tr>
+                    <tr>
+                        <td>QuantityPerUnit</td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            {{productDetail.QuantityPerUnit}}
+                        </td>
+                        <td><input type="text" ng-model="newProductDetail.QuantityPerUnit" /></td>
+                    </tr>
+                    <tr>
+                        <td>Images</td>
+                        <td  ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            <span ng-repeat="image in productDetail.Images">
+                                <span style="overflow: hidden;  display: block; width: 100px">
+                                    {{image.ImagePath}}
+                                </span> 
+                                <small>
+                                    <span type="button"
+                                          ng-click="deleteImage(image)"
+                                          class="btn btn-danger glyphicon glyphicon-remove"
+                                          data-dismiss="modal"></span>
+                                    <span type="button"
+                                          ng-click="selectImage(image)"
+                                          class="btn btn-info glyphicon glyphicon-pencil"
+                                          data-toggle="modal"
+                                          data-target="#editImageModal"></span>
+                                </small>
+                                <br/>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td ng-repeat="productDetail in selectedProduct.ProductDetails">
+                            
+                            <span class="btn btn-info glyphicon glyphicon-camera"
+                                  data-toggle="modal"
+                                  data-target="#addImageModal"
+                                  ng-click="selectProductDetail(productDetail)"></span>
+
+                            <span class="btn btn-info glyphicon glyphicon-pencil"
+                                  data-toggle="modal"
+                                  data-target="#editProductDetailModal"
+                                  ng-click="selectProductDetail(productDetail)"></span>
+
+                            <span class="btn btn-danger glyphicon glyphicon-remove"
+                                  data-toggle="modal"
+                                  data-target="#deleteModal"
+                                  data-dismiss="modal"
+                                  ng-click="deleteProductDetail(productDetail)"></span>
+                        </td>
+                        <td>
+                            <input type="button"
+                                   ng-click="addProductDetail(newProductDetail)"
+                                   class="btn btn-success"
+                                   data-dismiss="modal"
+                                   value="Add" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="addImageModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Adding Image</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>ProductDetailID</td>
+                        <td>{{selectedProductDetail.ProductDetailID}}</td>
+                    </tr>
+                    <tr>
+                        <td>ImagePath</td>
+                        <td>
+                            <input type="text" ng-model="newImage.ImagePath"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="addImage(newImage)">Add</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="editImageModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Editing Image</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>ProductDetailID</td>
+                        <td>{{selectedProductDetail.ProductDetailID}}</td>
+                    </tr>
+                    <tr>
+                        <td>ImagePath</td>
+                        <td>
+                            <input type="text" ng-model="selectedImage.ImagePath" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="editImage(selectedImage)">Add</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Add Modal-->
+
+<div id="addModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Adding</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+
+                    <tr>
+                        <td>ProductName</td>
+                        <td><input type="text" ng-model="newProduct.ProductName" /></td>
+                    </tr>
+                    <tr>
+                        <td>Category</td>
+                        <td>
+                            <select ng-model="newProduct.CategoryID"
+                                    ng-options="category.CategoryID as category.CategoryName for category in categories"
+                                    ng-change="getSubCategoriesByCategoryID(newProduct.CategoryID)"></select>
+                        </td>
+                        <td>
+                            <select ng-model="newProduct.SubCategoryID"
+                                    ng-options="subCategory.SubCategoryID as subCategory.SubCategoryName for subCategory in subCategories"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BrandID</td>
+                        <td>
+                            <select ng-model="newProduct.BrandID"
+                                    ng-options="brand.BrandID as brand.BrandName for brand in brands"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>SupplierID</td>
+                        <td>
+                            <select ng-model="newProduct.SupplierID"
+                                    ng-options="supplier.CompanyID as supplier.CompanyName for supplier in suppliers"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>TaxRate</td>
+                        <td><input type="text" ng-model="newProduct.TaxRate" /></td>
+                    </tr>
+                    <tr>
+                        <td>Specification</td>
+                        <td><input type="text" ng-model="newProduct.Specification" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="addProduct(newProduct)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Update Modal-->
+
+<div id="updateModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Adding</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+
+                    <tr>
+                        <td>ProductName</td>
+                        <td><input type="text" ng-model="selectedProduct.ProductName" /></td>
+                    </tr>
+                    <tr>
+                        <td>Category</td>
+                        <td>
+                            <select ng-model="selectedProduct.CategoryID"
+                                    ng-options="category.CategoryID as category.CategoryName for category in categories"
+                                    ng-change="getSubCategoriesByCategoryID(selectedProduct.CategoryID)"></select>
+                        </td>
+                        <td>
+                            <select ng-model="selectedProduct.SubCategoryID"
+                                    ng-options="subCategory.SubCategoryID as subCategory.SubCategoryName for subCategory in subCategories"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BrandID</td>
+                        <td>
+                            <select ng-model="selectedProduct.BrandID"
+                                    ng-options="brand.BrandID as brand.BrandName for brand in brands"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>SupplierID</td>
+                        <td>
+                            <select ng-model="selectedProduct.SupplierID"
+                                    ng-options="supplier.CompanyID as supplier.CompanyName for supplier in suppliers"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>TaxRate</td>
+                        <td><input type="text" ng-model="selectedProduct.TaxRate" /></td>
+                    </tr>
+                    <tr>
+                        <td>Specification</td>
+                        <td><input type="text" ng-model="selectedProduct.Specification" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="updateProduct(selectedProduct)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Do you want to delete the following Product?</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>ProductID</td>
+                        <td>{{selectedProduct.ProductID}}</td>
+                    </tr>
+                    <tr>
+                        <td>ProductName</td>
+                        <td>{{selectedProduct.ProductName}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteProduct(selectedProduct)">Delete</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Update Modal-->
+
+<div id="editProductDetailModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Editing</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+
+                    <tr>
+                        <td>ProductDetailID</td>
+                        <td>
+                            {{selectedProductDetail.ProductDetailID}}
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>Color</td>
+                        <td>
+                            <select ng-model="selectedProductDetail.ColorID"
+                                    ng-options="color.ColorID as color.ColorName for color in colors"></select>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>UnitPrice</td>
+                        <td><input type="text" ng-model="selectedProductDetail.UnitPrice" /></td>
+
+                    </tr>
+                    <tr>
+                        <td>CurrentUnitPrice</td>
+                        <td><input type="text" ng-model="selectedProductDetail.CurrentUnitPrice" /></td>
+
+                    </tr>
+                    <tr>
+                        <td>UnitsInStock</td>
+                        <td><input type="text" ng-model="selectedProductDetail.UnitsInStock" /></td>
+                    </tr>
+                    <tr>
+                        <td>Discount</td>
+                        <td><input type="text" ng-model="selectedProductDetail.Discount" /></td>
+                    </tr>
+                    <tr>
+                        <td>ReOrderLevel</td>
+                        <td><input type="text" ng-model="selectedProductDetail.ReOrderLevel" /></td>
+                    </tr>
+                    <tr>
+                        <td>RewardPoint</td>
+                        <td><input type="text" ng-model="selectedProductDetail.RewardPoint" /></td>
+                    </tr>
+                    <tr>
+                        <td>Discontinued</td>
+                        <td><input type="checkbox" ng-model="selectedProductDetail.Discontinued" /></td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td><input type="text" ng-model="selectedProductDetail.Description" /></td>
+                    </tr>
+                    <tr>
+                        <td>Volume</td>
+                        <td><input type="text" ng-model="selectedProductDetail.Volume" /></td>
+                    </tr>
+                    <tr>
+                        <td>Weight</td>
+                        <td><input type="text" ng-model="selectedProductDetail.Weight" /></td>
+                    </tr>
+                    <tr>
+                        <td>QuantityPerUnit</td>
+                        <td><input type="text" ng-model="selectedProductDetail.QuantityPerUnit" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="editProductDetail(selectedProductDetail)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>

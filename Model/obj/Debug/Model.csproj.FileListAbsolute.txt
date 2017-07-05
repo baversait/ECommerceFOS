@@ -1,0 +1,5 @@
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Model\bin\Debug\Model.dll
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Model\bin\Debug\Model.pdb
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Model\obj\Debug\Model.dll
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Model\obj\Debug\Model.pdb
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache

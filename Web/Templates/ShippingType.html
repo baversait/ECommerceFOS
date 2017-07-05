@@ -1,0 +1,132 @@
+﻿
+<table class="table table-responsive">
+    <thead>
+    <th>ShippingTypeID</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>PricePerItem</th>
+
+    <th class="col-sm-offset-11">Edit</th>
+    <th>Delete</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="shippingType in shippingTypes">
+            <td>{{shippingType.ShippingTypeID}}</td>
+            <td>{{shippingType.Name}}</td>
+            <td>{{shippingType.Description}}</td>
+            <td>{{shippingType.PricePerItem}}</td>
+
+            <td><span class="btn btn-info glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editModal" ng-click="selectShippingType(shippingType)"></span></td>
+            <td><span class="btn btn-danger glyphicon glyphicon-remove" data-toggle="modal" data-target="#deleteModal" ng-click="selectShippingType(shippingType)"></span></td>
+        </tr>
+    </tbody>
+</table>
+
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add</button>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Do you want to delete the following ShippingType?</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>ShippingTypeID</td>
+                        <td>{{selectedShippingType.ShippingTypeID}}</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>{{selectedShippingType.Name}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteShippingType(selectedShippingType)">Delete</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Update Modal-->
+
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Editing</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                   
+                    <tr>
+                        <td>Name</td>
+                        <td><input type="text" ng-model="selectedShippingType.Name" /></td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td><input type="text" ng-model="selectedShippingType.Description" /></td>
+                    </tr>
+                    <tr>
+                        <td>PricePerItem</td>
+                        <td><input type="text" ng-model="selectedShippingType.PricePerItem" /></td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="editShippingType(selectedShippingType)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Add Modal-->
+
+<div id="addModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Adding</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    
+                    <tr>
+                        <td>Name</td>
+                        <td><input type="text" ng-model="newShippingType.Name" /></td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td><input type="text" ng-model="newShippingType.Description" /></td>
+                    </tr>
+                    <tr>
+                        <td>PricePerItem</td>
+                        <td><input type="text" ng-model="newShippingType.PricePerItem" /></td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="addShippingType(newShippingType)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>

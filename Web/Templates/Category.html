@@ -1,0 +1,133 @@
+﻿
+<table class="table table-responsive">
+    <thead>
+    <th>CategoryID</th>
+    <th>CategoryName</th>
+    <th>Description</th>
+    <th>Images</th>
+    
+    <th class="col-sm-offset-11">Edit</th>
+    <th>Delete</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="category in categories">
+            <td>{{category.CategoryID}}</td>
+            <td>{{category.CategoryName}}</td>
+            <td>{{category.Description}}</td>
+            <td>
+                <span ng-repeat="image in category.Images">
+                    {{image.ImagePath}} <br/>
+                </span>
+                
+            </td>
+            
+            <td><span class="btn btn-info glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editModal" ng-click="selectCategory(category)"></span></td>
+            <td><span class="btn btn-danger glyphicon glyphicon-remove" data-toggle="modal" data-target="#deleteModal" ng-click="selectCategory(category)"></span></td>
+        </tr>
+    </tbody>
+</table>
+
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add</button>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Do you want to delete the following Currency?</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>CategoryID</td>
+                        <td>{{selectedCategory.CategoryID}}</td>
+                    </tr>
+                    <tr>
+                        <td>CategoryName</td>
+                        <td>{{selectedCategory.CategoryName}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteCategory(selectedCategory)">Delete</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Update Modal-->
+
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Editing</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>CategoryName</td>
+                        <td><input type="text" ng-model="selectedCategory.CategoryName" /></td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td><input type="text" ng-model="selectedCategory.Description" /></td>
+                    </tr>
+                    <tr>
+                        <td>ImagePath</td>
+                        <td><input type="text" ng-model="selectedCategory.Images[0].ImagePath" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="editCategory(selectedCategory)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Add Modal-->
+
+<div id="addModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Adding</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>CategoryName</td>
+                        <td><input type="text" ng-model="newCategory.CategoryName" /></td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td><input type="text" ng-model="newCategory.Description" /></td>
+                    </tr>
+                    <tr>
+                        <td>ImagePath</td>
+                        <td><input type="text" ng-model="newCategory.Images[0].ImagePath" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="addCategory(newCategory)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>

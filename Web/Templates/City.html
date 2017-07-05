@@ -1,0 +1,144 @@
+﻿
+<table class="table table-responsive">
+    <thead>
+    <th>CityID</th>
+    <th>Name</th>
+    <th>Country</th>
+    <th class="col-sm-offset-11">Edit</th>
+    <th>Delete</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="city in cities">
+            <td>{{city.CityID}}</td>
+            <td>{{city.Name}}</td>
+            <td>{{city.CountryName}}</td>
+            <td>
+                <span class="btn btn-info glyphicon glyphicon-pencil"
+                      data-toggle="modal"
+                      data-target="#editModal"
+                      ng-click="selectCity(city)"></span>
+            </td>
+            <td>
+                <span class="btn btn-danger glyphicon glyphicon-remove"
+                      data-toggle="modal"
+                      data-target="#deleteModal"
+                      ng-click="selectCity(city)"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<button type="button"
+        class="btn btn-success"
+        data-toggle="modal"
+        data-target="#addModal"
+        ng-click="getCountries()">
+    Add
+</button>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Do you want to delete the following City?</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>CountryID</td>
+                        <td>{{selectedCity.CityID}}</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>{{selectedCity.Name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Country</td>
+                        <td>{{selectedCity.CountryName}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteCity(selectedCity)">Delete</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Update Modal-->
+
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Editing</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>Name</td>
+                        <td><input type="text" ng-model="selectedCity.Name" /></td>
+                    </tr>
+                    <tr>
+                        <td>Country</td>
+                        <td>
+                            <select ng-model="selectedCity.CountryID"
+                                    ng-options="country.CountryID as country.Name for country in countries"></select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="editCity(selectedCity)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Add Modal-->
+
+<div id="addModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Adding</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>Name</td>
+                        <td><input type="text" ng-model="newCity.Name" /></td>
+                    </tr>
+                    <tr>
+                        <td>Country</td>
+                        <td>
+                            <select ng-model="newCity.CountryID"
+                                    ng-options="country.CountryID as country.Name for country in countries">
+                                <option>Test</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="addCity(newCity)">Add</button>
+            </div>
+        </div>
+
+    </div>
+</div>

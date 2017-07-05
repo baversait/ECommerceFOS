@@ -1,0 +1,235 @@
+﻿
+<table class="table table-responsive">
+    <thead>
+    <th>CompanyID</th>
+    <th>CompanyName</th>
+    <th>ContactName</th>
+    <th>ContactTitle</th>
+    <th>Phone</th>
+    <th>Fax</th>
+    <th>Website</th>
+    <th>IsSupplier</th>
+    <th>AddressTitle</th>
+    <th>AddressStr</th>
+    <th>TownName</th>
+    <th class="col-sm-offset-11">Edit</th>
+    <th>Delete</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="company in companies">
+            <td>{{company.CompanyID}}</td>
+            <td>{{company.CompanyName}}</td>
+            <td>{{company.ContactName}}</td>
+            <td>{{company.ContactTitle}}</td>
+            <td>{{company.Phone}}</td>
+            <td>{{company.Fax}}</td>
+            <td>{{company.Website}}</td>
+            <td>{{company.IsSupplier}}</td>
+            <td>{{company.Address.AddressTitle}}</td>
+            <td>{{company.Address.AddressStr}}</td>
+            <td>{{company.Address.TownName}}</td>
+            <td><span class="btn btn-info glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editModal" ng-click="selectCompany(company)"></span></td>
+            <td><span class="btn btn-danger glyphicon glyphicon-remove" data-toggle="modal" data-target="#deleteModal" ng-click="selectCompany(company)"></span></td>
+        </tr>
+    </tbody>
+</table>
+
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal" ng-click="getCountries()">Add</button>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Do you want to delete the following Company?</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>CompanyID</td>
+                        <td>{{selectedCompany.CompanyID}}</td>
+                    </tr>
+                    <tr>
+                        <td>CompanyName</td>
+                        <td>{{selectedCompany.CompanyName}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteCompany(selectedCompany)">Delete</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Update Modal-->
+
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Editing</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>CompanyName</td>
+                        <td><input type="text" ng-model="selectedCompany.CompanyName" /></td>
+                    </tr>
+                    <tr>
+                        <td>ContactName</td>
+                        <td><input type="text" ng-model="selectedCompany.ContactName" /></td>
+                    </tr>
+                    <tr>
+                        <td>ContactTitle</td>
+                        <td><input type="text" ng-model="selectedCompany.ContactTitle" /></td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td><input type="text" ng-model="selectedCompany.Phone" /></td>
+                    </tr>
+                    <tr>
+                        <td>Fax</td>
+                        <td><input type="text" ng-model="selectedCompany.Fax" /></td>
+                    </tr>
+                    <tr>
+                        <td>Website</td>
+                        <td><input type="text" ng-model="selectedCompany.Website" /></td>
+                    </tr>
+                    <tr>
+                        <td>IsSupplier</td>
+                        <td><input type="checkbox" ng-model="selectedCompany.IsSupplier" /></td>
+                    </tr>
+                    <tr>
+                        <td>AddressTitle</td>
+                        <td><input type="text" ng-model="selectedCompany.Address.AddressTitle" /></td>
+                    </tr>
+                    <tr>
+                        <td>AddressStr</td>
+                        <td><input type="text" ng-model="selectedCompany.Address.AddressStr" /></td>
+                    </tr>
+                    <tr>
+                        <td>PostalCode</td>
+                        <td><input type="text" ng-model="selectedCompany.Address.PostalCode" /></td>
+                    </tr>
+                    <tr>
+                        <td>Country:</td>
+                        <td>
+                            <select ng-model="selectedCompany.Address.CountryID"
+                                    ng-options="country.CountryID as country.Name for country in countries"
+                                    ng-change="getCitiesByCountryID(selectedCompany.Address.CountryID)"></select>
+                        </td>
+                        <td>City:</td>
+                        <td>
+                            <select ng-model="selectedCompany.Address.CityID"
+                                    ng-options="city.CityID as city.Name for city in cities"
+                                    ng-change="getTownsByCityID(selectedCompany.Address.CityID)"></select>
+                        </td>
+                        <td>City:</td>
+                        <td>
+                            <select ng-model="selectedCompany.Address.TownID"
+                                    ng-options="town.TownID as town.Name for town in towns"></select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="editCompany(selectedCompany)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Add Modal-->
+
+<div id="addModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Adding</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                   
+                    <tr>
+                        <td>CompanyName</td>
+                        <td><input type="text" ng-model="newCompany.CompanyName" /></td>
+                    </tr>
+                    <tr>
+                        <td>ContactName</td>
+                        <td><input type="text" ng-model="newCompany.ContactName" /></td>
+                    </tr>
+                    <tr>
+                        <td>ContactTitle</td>
+                        <td><input type="text" ng-model="newCompany.ContactTitle" /></td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td><input type="text" ng-model="newCompany.Phone" /></td>
+                    </tr>
+                    <tr>
+                        <td>Fax</td>
+                        <td><input type="text" ng-model="newCompany.Fax" /></td>
+                    </tr>
+                    <tr>
+                        <td>Website</td>
+                        <td><input type="text" ng-model="newCompany.Website" /></td>
+                    </tr>
+                    <tr>
+                        <td>IsSupplier</td>
+                        <td><input type="checkbox" ng-model="newCompany.IsSupplier" /></td>
+                    </tr>
+                    <tr>
+                        <td>AddressTitle</td>
+                        <td><input type="text" ng-model="newCompany.Address.AddressTitle" /></td>
+                    </tr>
+                    <tr>
+                        <td>AddressStr</td>
+                        <td><input type="text" ng-model="newCompany.Address.AddressStr" /></td>
+                    </tr>
+                    <tr>
+                        <td>PostalCode</td>
+                        <td><input type="text" ng-model="newCompany.Address.PostalCode" /></td>
+                    </tr>
+                    <tr>
+                        <td>Country:</td>
+                        <td>
+                            <select ng-model="newCompany.Address.CountryID"
+                                    ng-options="country.CountryID as country.Name for country in countries"
+                                    ng-change="getCitiesByCountryID(newCompany.Address.CountryID)"></select>
+                        </td>
+                        <td>City:</td>
+                        <td>
+                            <select ng-model="newCompany.Address.CityID"
+                                    ng-options="city.CityID as city.Name for city in cities"
+                                    ng-change="getTownsByCityID(newCompany.Address.CityID)"></select>
+                        </td>
+                        <td>City:</td>
+                        <td>
+                            <select ng-model="newCompany.Address.TownID"
+                                    ng-options="town.TownID as town.Name for town in towns"></select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="addCompany(newCompany)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>

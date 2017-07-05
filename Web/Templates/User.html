@@ -1,0 +1,30 @@
+﻿
+<table class="table table-responsive">
+    <thead>
+    <th>UserID</th>
+    <th>Name</th>
+    <th>LastName</th>
+    <th>Email</th>
+    <th>Password</th>
+    <th>Role</th>
+
+    <th class="col-sm-offset-11">Make Admin</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="user in users">
+
+            <td>{{user.UserID}}</td>
+            <td>{{user.Name}}</td>
+            <td>{{user.LastName}}</td>
+            <td>{{user.Email}}</td>
+            <td>{{user.Password}}</td>
+            <td>{{user.Role}}</td>
+            <td>
+                <span class="btn btn-success glyphicon glyphicon-pencil" ng-click="makeUserAdmin(user)"></span>
+            </td>
+            <!--<td><span class="btn btn-info glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editModal" ng-click="selectUser(user)"></span></td>
+            <td><span class="btn btn-danger glyphicon glyphicon-remove" data-toggle="modal" data-target="#deleteModal" ng-click="selectUser(user)"></span></td>-->
+
+        </tr>
+    </tbody>
+</table>

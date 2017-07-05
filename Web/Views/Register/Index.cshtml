@@ -1,0 +1,141 @@
+﻿@model Web.Models.MainModel
+@{
+    ViewBag.Title = "test";
+    Layout = "~/Views/Shared/MainLayoutPage.cshtml";
+}
+
+<script src="~/Scripts/AngularApps/registerApp.js"></script>
+
+<div id="container">
+    <div class="container">
+        <!-- Breadcrumb Start-->
+
+        <ul class="breadcrumb">
+            <li><a href="index.html"><i class="fa fa-home"></i></a></li>
+            <li><a href="login.html">Account</a></li>
+            <li><a href="register.html">Register</a></li>
+        </ul>
+        <!-- Breadcrumb End-->
+        <div class="row">
+            <!--Middle Part Start-->
+            <div class="col-sm-9" id="content" ng-controller="registerController">
+                <h1 class="title">Register Account</h1>
+                <p>If you already have an account with us, please login at the <a href="/Login">Login Page</a>.</p>
+
+
+                <form class="form-horizontal" action="/Register/Register" method="post">
+                    <fieldset id="account">
+                        <legend>Your Personal Details</legend>
+                        <div style="display: none;" class="form-group required">
+                            <label class="col-sm-2 control-label">Customer Group</label>
+                            <div class="col-sm-10">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" checked="checked" value="1" name="customer_group_id">
+                                        Default
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group required">
+                            <label for="input-firstname" class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input-firstname" placeholder="Name" value="" name="Name">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="input-lastname" class="col-sm-2 control-label">Last Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input-lastname" placeholder="Last Name" value="" name="LastName">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="input-email" class="col-sm-2 control-label">E-Mail</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="input-email" placeholder="E-Mail" value="" name="Email">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="input-telephone" class="col-sm-2 control-label">PhoneNumber</label>
+                            <div class="col-sm-10">
+                                <input type="tel" class="form-control" id="input-telephone" placeholder="Telephone" value="" name="Phone">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset id="address">
+                        <legend>Your Address</legend>
+                        <div class="form-group required">
+                            <label for="input-address-1" class="col-sm-2 control-label">AddressTitle</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input-address-title" placeholder="AddressTitle" value="" name="Address.AddressTitle">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="input-address-1" class="col-sm-2 control-label">Address</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input-address-1" placeholder="Address" value="" name="Address.AddressStr">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-country" class="col-sm-2 control-label">Country</label>
+                            <div class="col-sm-10">
+                                <select id="input-country"
+                                        ng-model="selectedCountryID"
+                                        ng-options="country.CountryID as country.Name for country in countries"
+                                        ng-change="getCitiesByCountryID(selectedCountryID)"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-city" class="col-sm-2 control-label">City</label>
+                            <div class="col-sm-10">
+                                <select id="input-city"
+                                        ng-model="selectedCityID"
+                                        ng-options="city.CityID as city.Name for city in cities"
+                                        ng-change="getTownsByCityID(selectedCityID)"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-town" class="col-sm-2 control-label">Town</label>
+                            <div class="col-sm-10">
+                                <select for="input-town"
+                                        name="Address.TownID">
+                                    <option ng-repeat="town in towns" value="{{town.TownID}}">{{town.Name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="input-postcode" class="col-sm-2 control-label">Post Code</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="input-postcode" placeholder="Post Code" value="" name="Address.PostalCode">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Your Password</legend>
+                        <div class="form-group required">
+                            <label for="input-password" class="col-sm-2 control-label">Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="input-password" placeholder="Password" value="" name="Password">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="buttons">
+                        <div class="pull-right">
+                            <input type="submit" class="btn btn-primary" value="Continue">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--Middle Part End -->
+            <!--Right Part Start -->
+            <aside id="column-right" class="col-sm-3 hidden-xs">
+                <h3 class="subtitle">Account</h3>
+                <div class="list-group">
+                    <ul class="list-item"></ul>
+                </div>
+            </aside>
+            <!--Right Part End -->
+        </div>
+    </div>
+</div>

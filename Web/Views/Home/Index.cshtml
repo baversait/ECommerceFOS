@@ -1,0 +1,289 @@
+﻿@model Web.Models.HomeModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/MainLayoutPage.cshtml";
+}
+<div class="container">
+    @if (Session["user"] != null)
+    {
+        <h2>
+            @Session["userName"]
+        </h2>
+    }
+</div>
+<div id="container">
+
+    <div class="container">
+        <div class="row">
+            <!--Middle Part Start-->
+            <div id="content" class="col-xs-12">
+                <!-- Slideshow Start-->
+                <div class="slideshow single-slider owl-carousel">
+                    @if (Model.FrontPageBanner != null)
+                    {
+                        foreach (var item in Model.FrontPageBanner)
+                        {
+                            foreach (var i in item.Images)
+                            {
+
+                                <div class="item"> <a href="/@item.ForwardAddress"><img class="img-responsive" src="@i.ImagePath" alt="Start to shopping!" /></a> </div>
+                            }
+                        }
+
+
+                    }
+                    
+                </div>
+                <!-- Slideshow End-->
+                <!-- Banner Start-->
+                <div class="marketshop-banner">
+                    <div id="content">
+                        <div class="row">
+                            @foreach (var item in Model.FrontPageBanner.Where(x=>x.IsSampleBanner==true))
+                            {
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="row">
+                                        <a href="@item.ForwardAddress">
+                                           
+                                                <img style="height:220px; width:auto" src="@item.Images.First().ImagePath" alt="Start to shopping!" title="Start to shopping!" />
+                                            
+                                        </a>
+                                    </div>
+                                  
+                                </div>
+                                 }
+                            @if (Model.FrontPageBanner.Where(x => x.IsSampleBanner).Count() != 4)
+                            {
+                                int i = 4 - Model.FrontPageBanner.Where(x => x.IsSampleBanner).Count();
+                                for (int a = 0; a < i; a++)
+                                {
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><a href="#"><img src="~/image/banner/sample-banner-3-300x300.jpg" alt="Sample Banner 2" title="Sample Banner 2" /></a></div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <!-- Banner End-->
+        <!-- Product Tab Start -->
+        <div id="product-tab" class="product-tab">
+            <ul id="tabs" class="tabs">
+                <li><a href="#tab-featured">Featured</a></li>
+                <li><a href="#tab-latest">Latest</a></li>
+                <li><a href="#tab-bestseller">Bestseller</a></li>
+
+            </ul>
+            <div id="tab-featured" class="tab_content">
+                <div class="owl-carousel product_carousel_tab">
+                    @if (Model.FeaturedProduct!=null)
+                    {
+                    
+                    foreach (var item in Model.FeaturedProduct)
+                    {
+                        <div class="product-thumb clearfix">
+                            <div class="image">
+                                <a href="/ProductPage/Product/@item.ProductDetail.ProductDetailID">
+                                    @foreach (var i in item.ProductDetail.Images.Take(1))
+                                    {
+                                        <img src="@i.ImagePath" alt="Banner @i.ImageID" title="@item.ProductName" class="img-responsive" style="height:330px;width:auto" />
+                                    }
+                                </a>
+                            </div>
+                            <div class="caption">
+                                <h4><a href="/ProductPage/Product/@item.ProductDetail.ProductDetailID">@item.ProductName</a></h4>
+                                <p class="price">
+                                    <span class="price-new">@item.ProductDetail.CurrentUnitPrice.ToString("N2")</span>
+                                    @if (item.ProductDetail.UnitPrice != item.ProductDetail.CurrentUnitPrice)
+                                    {
+                                        <span class="price-old">@item.ProductDetail.UnitPrice.ToString("N2")</span>
+                                    }
+                                    @if (item.ProductDetail.Discount != null && item.ProductDetail.Discount != 0)
+                                    {
+                                        <span class="saving">@item.ProductDetail.Discount %</span>
+                                    }
+
+                                </p>
+                            </div>
+
+
+                           
+                        </div>
+                    }
+                    }
+                    @if (Model.FeaturedProduct.Count != 10)
+                    {
+                        int i = 10 - Model.FeaturedProduct.Count;
+                        for (int a = 0; a < i; a++)
+                        {
+                            <div class="product-thumb">
+                                <div class="image"><a href="#"><img src="~/image/product/macbook_3-220x330.jpg" alt="You should add some product for show up" title="You should add some product for show up" class="img-responsive" /></a></div>
+                                <div class="caption">
+                                    <h4><a href="product.html">You should add some product for show up</a></h4>
+                                    <p class="price"> None</p>
+                                </div>
+
+                            </div>
+                        }
+                    }
+                   
+                </div>
+            </div>
+
+            <div id="tab-latest" class="tab_content">
+                <div class="owl-carousel product_carousel_tab">
+                    @if (Model.LatestProducts!=null)
+                    {
+                    
+                    foreach (var item in Model.LatestProducts)
+                    {
+                        <div class="product-thumb clearfix">
+                            <div class="image">
+                                <a href="/ProductPage/Product/@item.ProductDetails.First().ProductDetailID">
+                                    @foreach (var i in item.ProductDetails.First().Images.Take(1))
+                                    {
+                                        <img src="@i.ImagePath" alt="Banner @i.ImageID" title="@item.ProductName" class="img-responsive" style="height:330px;width:auto" />
+                                    }
+                                </a>
+                            </div>
+                            <div class="caption">
+                                <h4><a href="/ProductPage/Product/@item.ProductDetails.First().ProductDetailID">@item.ProductName</a></h4>
+                                <p class="price">
+                                    <span class="price-new">@item.ProductDetails.First().CurrentUnitPrice.ToString("N2")</span>
+                                    @if (item.ProductDetails.First().UnitPrice != item.ProductDetails.First().CurrentUnitPrice)
+                                    {
+                                        <span class="price-old">@item.ProductDetails.First().UnitPrice.ToString("N2")</span>
+                                    }
+                                    @if (item.ProductDetails.First().Discount != null && item.ProductDetails.First().Discount != 0)
+                                    {
+                                        <span class="saving">@item.ProductDetails.First().Discount %</span>
+                                    }
+
+                                </p>
+                            </div>
+
+
+
+                        </div>
+                    }
+                    }
+                    @if (Model.FeaturedProduct.Count != 10)
+                    {
+                        int i = 10 - Model.FeaturedProduct.Count;
+                        for (int a = 0; a < i; a++)
+                        {
+                            <div class="product-thumb">
+                                <div class="image"><a href="#"><img src="~/image/product/macbook_3-220x330.jpg" alt="You should add some product for show up" title="You should add some product for show up" class="img-responsive" /></a></div>
+                                <div class="caption">
+                                    <h4><a href="product.html">You should add some product for show up</a></h4>
+                                    <p class="price"> None</p>
+                                </div>
+
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+
+            <div id="tab-bestseller" class="tab_content">
+                <div class="owl-carousel product_carousel_tab">
+                    @foreach (var item in Model.BestSellers)
+                    {
+                        <div class="product-thumb clearfix">
+                            <div class="image"><a href="/ProductPage/Product/@item.ProductDetailID"><img src="@item.Images.First().ImagePath" alt="@item.Description" title="@item.ProductName" style="width:auto;height:330px" class="img-responsive" /></a></div>
+                            <div class="caption">
+                                <h4><a href="/ProductPage/Product/@item.ProductDetailID">@item.ProductName</a></h4>
+                                <p class="price">
+                                    <span class="price-new">@item.CurrentUnitPrice.ToString("N2")</span>
+                                    @if (item.UnitPrice != item.CurrentUnitPrice)
+                                    {
+                                        <span class="price-old">@item.UnitPrice.ToString("N2")</span>
+                                    }
+                                    @if (item.Discount != null && item.Discount != 0)
+                                    {
+                                        <span class="saving">@item.Discount %</span>
+                                    }
+
+                                </p>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.BestSellers.Count != 10)
+                    {
+                        int i = 10 - Model.BestSellers.Count;
+                        for (int a = 0; a < i; a++)
+                        {
+                            <div class="product-thumb">
+                                <div class="image"><a href="#"><img src="~/image/product/macbook_3-220x330.jpg" alt="You should add some product for show up" title="You should add some product for show up" class="img-responsive" /></a></div>
+                                <div class="caption">
+                                    <h4><a href="product.html">You should add some product for show up</a></h4>
+                                    <p class="price"> None</p>
+                                </div>
+
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+
+            
+
+            @*<div id="tab-bestseller" class="tab_content" ng-controller="bestSellersCtrl" ng-init="getBestSellers()">
+                <div class="owl-carousel product_carousel_tab">
+
+                    <div class="product-thumb clearfix" ng-repeat="productDetail in bestSellers">
+
+                        <div class="image"><a href="/ProductPage/Product/{{productDetail.ProductDetailID}}"><img ng-src="{{ productDetail.Images[0].ImagePath }}" alt="{{productDetail.Description}}" title="{{productDetail.Description}}" class="img-responsive" /></a></div>
+                        <div class="caption">
+                            <h4><a href="/ProductPage/Product/{{productDetail.ProductDetailID}}">{{productDetail.ProductName}}</a></h4>
+                            <p class="price">
+                                <span class="price-new">${{productDetail.UnitPrice}}</span>
+                                <span class="saving">{{productDetail.Discount}}%</span>
+                            </p>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>*@
+
+        </div>
+        <!-- Product Tab Start -->
+        <!-- Banner Start -->
+        <div class="marketshop-banner">
+            <div class="row">
+                @foreach (var item in Model.FrontPageBanner.Where(x => x.IsBlockBanner == true))
+                {
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="row">
+                            <a href="@item.ForwardAddress">
+
+                                <img style="height:220px; width:auto" src="@item.Images.First().ImagePath" alt="Start to shopping!" title="Start to shopping!" />
+
+                            </a>
+                        </div>
+
+                    </div>
+                }
+                @if (Model.FrontPageBanner.Where(x => x.IsBlockBanner == true).Count() != 2)
+                {
+                    int i =2- Model.FrontPageBanner.Where(x => x.IsBlockBanner == true).Count();
+                    for (int a = 0; a < i; a++)
+                    {
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><a href="#"><img src="~/image/banner/sample-banner-4-600x250.jpg" alt="2 Block Banner" title="2 Block Banner" /></a></div>
+                    }
+
+                }
+                
+            </div>
+        </div>
+
+        <!-- Brand Logo Carousel End -->
+    </div>
+    <!--Middle Part End-->
+</div>
+    </div>
+</div>

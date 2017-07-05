@@ -1,0 +1,363 @@
+﻿@model Web.Models.MainModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" type="text/css" href="/js/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
+    <link rel="stylesheet" type="text/css" href="/css/owl.carousel.css" />
+    <link rel="stylesheet" type="text/css" href="/css/owl.transitions.css" />
+    <link rel="stylesheet" type="text/css" href="/css/responsive.css" />
+    <link rel="stylesheet" type="text/css" href="/css/stylesheet-skin2.css" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <link href="~/js/swipebox/src/css/swipebox.min.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/AngularApps/cartApp.js"></script>
+</head>
+<body>
+
+    <div class="wrapper-wide" ng-app="mainModule" ng-controller="cartCtrl">
+
+        <div id="header">
+            <!-- Top Bar Start-->
+            <nav id="top" class="htop">
+                <div class="container">
+                    <div class="row">
+                        <span class="drop-icon visible-sm visible-xs"><i class="fa fa-align-justify"></i></span>
+                        <div class="pull-left flip left-top">
+                            <div class="links">
+                                <ul>
+                                    @if (Model.CompanyInfo != null)
+                                    {
+                                        <li class="mobile"><i class="fa fa-phone"></i>@Model.CompanyInfo.PhoneNumber</li>
+                                        <li class="email"><a href="mailto:@Model.CompanyInfo.Email"><i class="fa fa-envelope"></i>@Model.CompanyInfo.Email</a></li>
+                                    }
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="top-links" class="nav pull-right flip">
+                            <ul>
+                                @if (Session["user"] != null)
+                                {
+                                    <li>
+                                        @if (Session["userRole"] != null && ((string)Session["userRole"]).Equals("admin"))
+                                        {
+                                            @Session["userName"]
+                                            <a href="/admin/Admin">
+                                                Admin Page
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            @Session["userName"]
+                                        }
+                                    </li>
+                                    <li><a href="/login/Logout">Logout</a></li>
+
+                                }
+                                else
+                                {
+                                    <li><a href="/login">Login</a></li>
+                                    <li><a href="/Register">Register</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- Top Bar End-->
+            <!-- Header Start-->
+            <header class="header-row">
+                <div class="container">
+                    <div class="table-container">
+                        <!-- Logo Start -->
+                        <div class="col-table-cell col-lg-6 col-md-6 col-sm-12 col-xs-12 inner">
+                            <div id="logo">
+                                <a href="/">
+                                    @if (Model.CompanyInfo != null && Model.CompanyInfo.LogoImages.Count > 0)
+                                    {
+                                        <img class="img-responsive"
+                                             src="@Model.CompanyInfo.LogoImages.ToList()[0].ImagePath"
+                                             title="@Model.CompanyInfo.CompanyName"
+                                             alt="@Model.CompanyInfo.CompanyName"
+                                             style="height: 60px" />
+                                    }
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Logo End -->
+                        <!-- Mini Cart Start-->
+                        @if (Session["user"] != null)
+            {
+                            <div class="col-table-cell col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <!---->
+                                <div id="cart">
+                                    <button type="button" data-toggle="dropdown" data-loading-text="Loading..." class="heading dropdown-toggle">
+                                        <span class="cart-icon pull-left flip"></span>
+                                        <span id="cart-total">{{cart.NumberOfItems}} item(s) - {{cart.TotalPrice}}</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr ng-repeat="cartDetail in cart.CartDetails">
+                                                        <td class="text-center">
+                                                            <a href="/ProductPage/Product/{{cartDetail.ProductDetailID}}">
+                                                                <img class="img-thumbnail"
+                                                                     title="{{cartDetail.ProductDetail.Description}}"
+                                                                     alt="{{cartDetail.ProductDetail.Description}}"
+                                                                     src="{{cartDetail.ProductDetail.Images[0].ImagePath}}"
+                                                                     style="height: 35px">
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <a href="/ProductPage/Product/{{cartDetail.ProductDetailID}}">{{cartDetail.ProductDetail.ProductName}}</a>
+                                                        </td>
+                                                        <td class="text-right">x {{cartDetail.Quantity}}</td>
+                                                        <td class="text-right">{{cartDetail.TotalPrice}}</td>
+                                                        <td class="text-center">
+                                                            <button class="btn btn-danger btn-xs remove"
+                                                                    title="Remove" ng-click="deleteCartDetail(cartDetail)" type="button">
+                                                                <i class="fa fa-times"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                <table class="table table-bordered">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="text-right"><strong>Sub-Total</strong></td>
+                                                            <td class="text-right">${{cart.TotalPrice | number:2}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-right"><strong>VAT</strong></td>
+                                                            <td class="text-right">${{cart.TotalTax | number:2}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-right"><strong>Total</strong></td>
+                                                            <td class="text-right">${{cart.TotalPriceAfterTax | number:2}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <p class="checkout">
+                                                    <a href="/Cart" class="btn btn-primary">
+                                                        <i class="fa fa-shopping-cart"></i> View Cart
+                                                    </a>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <a href="/Checkout" class="btn btn-primary">
+                                                        <i class="fa fa-share"></i> Checkout
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        }    <!-- Mini Cart End-->
+                    </div>
+                </div>
+            </header>
+            <!-- Header End-->
+            <!-- Main Menu Start-->
+
+            <nav id="menu" class="navbar">
+                <div class="navbar-header">
+                    <span class="visible-xs visible-sm"> Menu <b></b></span>
+                </div>
+                <div class="container">
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a class="home_link" title="Home" href="/">Home</a></li>
+                            @if (Model.Categories != null)
+                            {
+                                foreach (var category in Model.Categories)
+                                {
+                                    <li class="dropdown">
+                                        <a href="/CategoryPage/Category/@category.CategoryID">
+                                            @category.CategoryName
+                                            <span>&rsaquo;</span>
+                                        </a>
+                                        @if (category.SubCategories != null && category.SubCategories.Count > 0)
+                                        {
+                                            <div class="dropdown-menu">
+                                                <ul>
+                                                    @foreach (var subCategory in category.SubCategories)
+                                                    {
+                                                        <li>
+                                                            <a href="/CategoryPage/SubCategory/@subCategory.SubCategoryID">
+                                                                @subCategory.SubCategoryName
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        }
+                                    </li>
+                                }
+                            }
+
+
+                            <li class="menu_brands dropdown">
+                                <a href="#">Brands</a>
+                                <div class="dropdown-menu">
+                                    @if (Model.Brands != null)
+                                    {
+                                        foreach (var brand in Model.Brands)
+                                        {
+                                            <div class="col-lg-1 col-md-2 col-sm-3 col-xs-6">
+                                                <a href="#">
+                                                    <img src="@brand.ImagePath"
+                                                         title="@brand.BrandName"
+                                                         alt="@brand.BrandName"
+                                                         style="height: 30px" />
+                                                </a>
+                                                <a href="#">
+                                                    @brand.BrandName
+                                                </a>
+                                            </div>
+                                        }
+                                    }
+
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Menu End-->
+        </div>
+
+        <div>
+            @RenderBody()
+        </div>
+
+        <!--Footer Start-->
+        <footer id="footer">
+            <div class="fpart-first">
+                <div class="container">
+                    <div class="row">
+                        <div class="contact col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @if (Model.CompanyInfo != null)
+                            {
+                                <h5>About @Model.CompanyInfo.CompanyName</h5>
+                                <p>@Model.CompanyInfo.AboutUs</p>
+
+                                <img alt=""
+                                     src="@Model.CompanyInfo.ImagePath"
+                                     style="height: 60px">
+                            }
+
+                        </div>
+                        <div class="column col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                            <h5>Information</h5>
+                            <ul>
+                                <li><a href="/ContactUsPage">About Us</a></li>
+                                <li><a href="#">Delivery Information</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Terms &amp; Conditions</a></li>
+                            </ul>
+                        </div>
+                        <div class="column col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                            <h5>Customer Service</h5>
+                            <ul>
+                                <li><a href="/ContactUsPage">Contact Us</a></li>
+                                <li><a href="#">Returns</a></li>
+                                <li><a href="#">Site Map</a></li>
+                            </ul>
+                        </div>
+                        <div class="column col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                            <h5>Extras</h5>
+                            <ul>
+                                <li><a href="#">Brands</a></li>
+                                <li><a href="#">Gift Vouchers</a></li>
+                                <li><a href="#">Affiliates</a></li>
+                                <li><a href="#">Specials</a></li>
+                            </ul>
+                        </div>
+                        <div class="column col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                            <h5>My Account</h5>
+                            <ul>
+                                <li><a href="#">My Account</a></li>
+                                <li><a href="#">Order History</a></li>
+                                <li><a href="#">Wish List</a></li>
+                                <li><a href="#">Newsletter</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="fpart-second">
+            </div>
+
+            <div class="fpart-second">
+                <div class="container">
+                    <div id="powered" class="clearfix">
+                        <div class="powered_text pull-left flip">
+                            <p></p>
+                        </div>
+                        @*<div class="social pull-right flip"> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/socialicons/facebook.png" alt="Facebook" title="Facebook"></a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/socialicons/twitter.png" alt="Twitter" title="Twitter"> </a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/socialicons/google_plus.png" alt="Google+" title="Google+"> </a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/socialicons/pinterest.png" alt="Pinterest" title="Pinterest"> </a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/socialicons/rss.png" alt="RSS" title="RSS"> </a> </div>*@
+                    </div>
+                    <div class="bottom-row">
+                        @*<div class="custom-text text-center">
+                                <p>This is a CMS block. You can insert any content (HTML, Text, Images) Here.<br> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                            </div>
+                            <div class="payments_types"> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/payment/payment_paypal.png" alt="paypal" title="PayPal"></a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/payment/payment_american.png" alt="american-express" title="American Express"></a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/payment/payment_2checkout.png" alt="2checkout" title="2checkout"></a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/payment/payment_maestro.png" alt="maestro" title="Maestro"></a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/payment/payment_discover.png" alt="discover" title="Discover"></a> <a href="#" target="_blank"> <img data-toggle="tooltip" src="image/payment/payment_mastercard.png" alt="mastercard" title="MasterCard"></a> </div>*@
+                    </div>
+                </div>
+            </div>
+
+            <div id="back-top">
+                <a data-toggle="tooltip" title="Back to Top" href="javascript:void(0)" class="backtotop"><i class="fa fa-chevron-up"></i></a>
+            </div>
+        </footer>
+        <!--Footer End-->
+
+    </div>
+
+
+    <!-- JS Part Start-->
+    <script type="text/javascript" src="/js/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.easing-1.3.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dcjqaccordion.min.js"></script>
+    <script type="text/javascript" src="/js/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.elevateZoom-3.0.8.min.js"></script>
+    <script type="text/javascript" src="/js/swipebox/lib/ios-orientationchange-fix.js"></script>
+    <script type="text/javascript" src="/js/swipebox/src/js/jquery.swipebox.min.js"></script>
+    <script type="text/javascript" src="/js/custom.js"></script>
+    <!-- JS Part End-->
+    <script type="text/javascript">
+        // Elevate Zoom for Product Page image
+        $("#zoom_01").elevateZoom({
+            gallery: 'gallery_01',
+            cursor: 'pointer',
+            galleryActiveClass: 'active',
+            imageCrossfade: true,
+            zoomWindowFadeIn: 500,
+            zoomWindowFadeOut: 500,
+            lensFadeIn: 500,
+            lensFadeOut: 500,
+            loadingIcon: '/image/progress.gif'
+        });
+        //////pass the images to swipebox
+        $("#zoom_01").bind("click", function (e) {
+            var ez = $('#zoom_01').data('elevateZoom');
+            $.swipebox(ez.getGalleryList());
+            return false;
+        });
+    </script>
+</body>
+</html>

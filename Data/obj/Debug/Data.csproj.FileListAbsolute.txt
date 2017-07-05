@@ -1,0 +1,14 @@
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Data\bin\Debug\Data.dll.config
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Data\bin\Debug\Data.dll
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Data\bin\Debug\Data.pdb
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Data\bin\Debug\EntityFramework.dll
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Data\bin\Debug\Model.dll
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Data\bin\Debug\Model.pdb
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Data\bin\Debug\EntityFramework.xml
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Data\obj\Debug\Data.dll
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Data\obj\Debug\Data.pdb
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Data\obj\Debug\Data.Migrations.aaa.resources
+C:\Users\Baver\Source\Workspaces\Ecommerce\ECommerceFOS\Data\obj\Debug\Data.csproj.GenerateResource.Cache

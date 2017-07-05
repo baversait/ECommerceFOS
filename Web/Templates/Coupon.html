@@ -1,0 +1,209 @@
+﻿
+<table class="table table-responsive">
+    <thead>
+    <th>CouponID</th>
+    <th>CouponCode</th>
+    <th>Counts</th>
+    <th>Remaining</th>
+    <th>Discount</th>
+    <th>CustomerName</th>
+    <th>ExpiresAt</th>
+    <th>CategoryName</th>
+
+    <th class="col-sm-offset-11">Edit</th>
+    <th>Delete</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="coupon in coupons">
+            <td>{{coupon.CouponID}}</td>
+            <td>{{coupon.CouponCode}}</td>
+            <td>{{coupon.Counts}}</td>
+            <td>{{coupon.Remaining}}</td>
+            <td>{{coupon.Discount}}</td>
+            <td>{{coupon.CustomerName}}</td>
+            <td>{{coupon.ExpiresAt.replace('/Date(','').replace(')/','') | date:'dd-MM-yyyy'}}</td>
+            <td>{{coupon.CategoryName}}</td>
+
+
+            <td><span class="btn btn-info glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editModal" ng-click="selectCoupon(coupon);getCategories(); getUsers()"></span></td>
+            <td><span class="btn btn-danger glyphicon glyphicon-remove" data-toggle="modal" data-target="#deleteModal" ng-click="selectCoupon(coupon)"></span></td>
+        </tr>
+    </tbody>
+</table>
+
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal" ng-click="getCategories(); getUsers()">Add</button>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Do you want to delete the following Coupon?</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>CouponCode</td>
+                        <td>{{selectedCoupon.CouponCode}}</td>
+                    </tr>
+                    <tr>
+                        <td>Remaining</td>
+                        <td>{{selectedCoupon.Remaining}}</td>
+                    </tr>
+                    <tr>
+                        <td>Discount</td>
+                        <td>{{selectedCoupon.Discount}}</td>
+                    </tr>
+                    <tr>
+                        <td>ExpiresAt</td>
+                        <td>{{selectedCoupon.ExpiresAt}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteCoupon(selectedCoupon)">Delete</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Update Modal-->
+
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Editing</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+
+                    <tr>
+                        <td>CouponCode</td>
+                        <td><input type="text" ng-model="selectedCoupon.CouponCode" /></td>
+                    </tr>
+                    <tr>
+                        <td>Counts</td>
+                        <td><input type="text" ng-model="selectedCoupon.Counts" /></td>
+                    </tr>
+                    <tr>
+                        <td>Remaining</td>
+                        <td><input type="text" ng-model="selectedCoupon.Remaining" /></td>
+                    </tr>
+                    <tr>
+                        <td>Discount</td>
+                        <td><input type="text" ng-model="selectedCoupon.Discount" /></td>
+                    </tr>
+                    <tr>
+                        <td>CustomerID</td>
+                        <td>
+                            <select ng-model="selectedCoupon.CustomerID"
+                                    ng-options="user.UserID as user.Name+' '+user.LastName+' '+user.Email for user in users">
+                                <option value="">---Please select---</option>
+                            </select>
+                        </td>
+                        <!--<td><input type="text" ng-model="selectedCoupon.CustomerID" /></td>-->
+                    </tr>
+                    <tr>
+                        <td>CategoryID</td>
+                        <td>
+                            <select ng-model="selectedCoupon.CategoryID"
+                                    ng-options="category.CategoryID as category.CategoryName for category in categories">
+                                <option value="">---Please select---</option>
+                            </select>
+                        </td>
+                        <!--<td><input type="text" ng-model="selectedCoupon.CategoryID" /></td>-->
+                    </tr>
+                    <tr>
+                        <td>ExpiresAt</td>
+                        <td><input type="date" placeholder="dd-MM-yyyy" ng-model="selectedCoupon.ExpiresAt" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="editCoupon(selectedCoupon)">Edit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--Add Modal-->
+
+<div id="addModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Adding</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+
+
+                    <tr>
+                        <td>CouponCode</td>
+                        <td><input type="text" ng-model="newCoupon.CouponCode" /></td>
+                    </tr>
+                    <tr>
+                        <td>Counts</td>
+                        <td><input type="text" ng-model="newCoupon.Counts" /></td>
+                    </tr>
+                    <tr>
+                        <td>Remaining</td>
+                        <td><input type="text" ng-model="newCoupon.Remaining" /></td>
+                    </tr>
+                    <tr>
+                        <td>Discount</td>
+                        <td><input type="text" ng-model="newCoupon.Discount" /></td>
+                    </tr>
+                    <tr>
+                        <td>CustomerID</td>
+                        <td>
+                            <select ng-model="newCoupon.CustomerID"
+                                    ng-options="user.UserID as user.Name+' '+user.LastName+' '+user.Email for user in users">
+                                <option value="">---Please select---</option>
+                            </select>
+                        </td>
+                        <!--<td><input type="text" ng-model="newCoupon.CustomerID" /></td>-->
+                    </tr>
+
+
+                    <tr>
+                        <td>CategoryName</td>
+                        <td>
+
+
+                            <select ng-model="newCoupon.CategoryID"
+                                    ng-options="category.CategoryID as category.CategoryName for category in categories">
+                                <option value="">---Please select---</option>
+                            </select>
+
+
+                    </tr>
+                    <tr>
+                        <td>ExpiresAt</td>
+                        <td><input type="date" placeholder="dd-MM-yyyy" ng-model="newCoupon.ExpiresAt" /></td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="addCoupon(newCoupon)">Add</button>
+            </div>
+        </div>
+
+    </div>
+</div>
